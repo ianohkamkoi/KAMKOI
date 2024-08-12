@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KAMKOI</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url(pikipiki.jpg);
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+            padding: 0;
+            color: white;
+        }
+
+        .left-rectangle {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 15%;
+            height: 100%;
+            background-color: black;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px;
+            box-sizing: border-box;
+            z-index: 1000;
+        }
+
+        .left-rectangle .button {
+            width: 80%;
+            margin-bottom: 15px;
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+            background-color: rgba(8, 18, 155, 0.8);
+            color: white;
+            border: 1px solid rgba(8, 18, 155, 0.8);
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        .left-rectangle .button:hover {
+            background-color: #007BFF;
+            border-color: #007BFF;
+        }
+
+        .header-container {
+            position: fixed;
+            top: 0;
+            left: 15%;
+            width: 85%;
+            height: 60px;
+            background-color: rgba(14, 13, 13, 0.9);
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+
+        .movie-icon {
+            width: 40px;
+            height: auto;
+        }
+
+        .watch-movies-tv {
+            font-size: 16px;
+            font-family: Arial, sans-serif;
+            color: red;
+            text-decoration: none;
+            margin-left: 10px;
+        }
+
+        .sign-button {
+            margin-left: auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            background-color: blue;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+
+        .sign-button:hover {
+            background-color: #007BFF;
+            font-size: 19px;
+        }
+
+        .search-container {
+            position: fixed;
+            top: 60px;
+            left: 15%;
+            width: 85%;
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 10px;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            z-index: 900;
+        }
+
+        .search-input {
+            border: 1px solid #d3c1c1;
+            border-radius: 5px;
+            padding: 8px;
+            font-size: 16px;
+            width: 300px;
+        }
+
+        .search-button {
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            padding: 8px 16px;
+            margin-left: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .search-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Banner Section */
+        .banner {
+            position: relative;
+            margin-top: 120px;
+            left: 16%;
+            width: 80%;
+            height: 300px;
+            background-image: url('banner.jpg');
+            background-size: cover;
+            background-position: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .banner-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .banner-overlay h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .banner-overlay p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .banner-overlay .banner-button {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .banner-overlay .banner-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Categories Section */
+        .categories-container {
+            position: relative;
+            top: 450px;
+            left: 16%;
+            width: 80%;
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .category-card {
+            width: 23%;
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 5px;
+            overflow: hidden;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .category-card img {
+            width: 100%;
+            height: auto;
+        }
+
+        .category-card h3 {
+            margin: 10px 0;
+            font-size: 16px;
+            color: white;
+        }
+
+        .category-card:hover {
+            transform: scale(1.05);
+        }
+
+        /* Movie Cards Section */
+        .content-container {
+            position: absolute;
+            top: 700px;
+            left: 16%;
+            width: 80%;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+            padding-bottom: 20px;
+        }
+
+        .movie-card {
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 5px;
+            overflow: hidden;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .movie-card img {
+            width: 100%;
+            height: auto;
+        }
+
+        .movie-card h3 {
+            margin: 10px 0;
+            font-size: 16px;
+            color: white;
+        }
+
+        .movie-card:hover {
+            transform: scale(1.05);
+        }
+
+        .video-player-container {
+            position: fixed;
+            top: 0;
+            left: 15%;
+            width: 85%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .close-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .close-button:hover {
+            background-color: #0056b3;
+        }
+
+        .loading-spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid #007BFF;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+            z-index: 1100;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .scroll-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            z-index: 1000;
+            display: none;
+        }
+
+        .scroll-to-top:hover {
+            background-color: #0056b3;
+        }
+
+        @media screen and (max-width: 768px) {
+            .header-container,
+            .search-container {
+                left: 0;
+                width: 100%;
+            }
+
+            .left-rectangle {
+                display: none;
+            }
+
+            .banner,
+            .categories-container,
+            .content-container {
+                left: 0;
+                width: 100%;
+            }
+
+            .category-card,
+            .movie-card {
+                width: 100%;
+            }
+        }
+
+        /* Sign-In/Sign-Up Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-content h2 {
+            margin-top: 0;
+        }
+
+        .modal-content button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .modal-content button:hover {
+            background-color: #0056b3;
+        }
+
+        .toggle-button {
+            margin-top: 10px;
+            font-size: 14px;
+            background-color: transparent;
+            color: #007BFF;
+            padding: 0;
+            border: none;
+            cursor: pointer;
+        }
+
+        .toggle-button:hover {
+            color: #0056b3;
+        }
+
+        .modal-content form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-content form input {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .modal-content .create-account {
+            display: none;
+        }
+
+        .modal-content .active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="left-rectangle">
+        <button class="button" title="Go Back" onclick="window.location.href='index.html'">Back</button>
+        <button class="button" title="Home" onclick="showHome()">Home</button>
+        <button class="button" title="View Movies" onclick="showMovies()">Movies</button>
+        <button class="button" title="View TV Shows" onclick="showTVShows()">TV Shows</button>
+        <button class="button" title="View New Arrivals" onclick="showNewArrivals()">New Arrivals</button>
+        <button class="button" title="View Favorites" onclick="showFavorites()">Favorites</button>
+    </div>
+
+    <div class="header-container">
+        <img class="movie-icon" src="movie icon.webp" alt="Movie Icon">
+        <a class="watch-movies-tv" href="https://www.youtube.com/@iankaromo6733" target="_blank">WATCH MOVIES TV</a>
+        <button class="sign-button" onclick="openModal()">SIGN IN</button>
+    </div>
+
+    <div class="search-container">
+        <input type="text" id="search-input" class="search-input" placeholder="Search...">
+        <button id="search-button" class="search-button">Search</button>
+    </div>
+
+    <!-- Banner Section -->
+    <div class="banner">
+        <div class="banner-overlay">
+            <h1>Welcome to KAMKOI</h1>
+            <p>Your one-stop destination for movies and TV shows.</p>
+            <button class="banner-button" onclick="showMovies()">Explore Movies</button>
+        </div>
+    </div>
+
+  
+
+    <!-- Movie Cards Section -->
+    <div class="content-container"></div>
+
+    <div class="video-player-container" style="display: none;">
+        <div class="loading-spinner"></div>
+        <button class="close-button" onclick="closeVideo()">Close</button>
+        <video id="video-player" width="100%" controls></video>
+    </div>
+
+    <button class="scroll-to-top" onclick="scrollToTop()">Top</button>
+
+    <div class="modal-overlay">
+        <div class="modal-content">
+            <h2>Sign In</h2>
+            <form class="sign-in active">
+                <input type="text" placeholder="Username" style="width: 100%; padding: 10px; margin-bottom: 10px;">
+                <input type="password" placeholder="Password" style="width: 100%; padding: 10px;">
+                <button class="modal-close" onclick="closeModal()">Sign In</button>
+            </form>
+            <form class="create-account">
+                <h2>Create an Account</h2>
+                <input type="text" placeholder="Username" style="width: 100%; padding: 10px; margin-bottom: 10px;">
+                <input type="email" placeholder="Email" style="width: 100%; padding: 10px; margin-bottom: 10px;">
+                <input type="password" placeholder="Password" style="width: 100%; padding: 10px;">
+                <button class="modal-close" onclick="closeModal()">Create Account</button>
+            </form>
+            <button class="toggle-button" onclick="toggleForms()">Don't have an account? Create one</button>
+        </div>
+    </div>
+
+    <script>
+        const movies = [
+            { title: "car 1", img: "1.png", video: "cars 1.mp4" },
+            { title: "car 2", img: "2.jpg", video: "cars 2.mp4" },
+            { title: "car 3", img: "3.jpg", video: "cars 3.mp4" },
+            { title: "GORGEOUS dj smith", img:"jc.jpg", video: "GORGEOUS.mp4" },
+            { title: "Shanghai dj smith", img: "shh.jpg", video: "Shanghai.mp4" },
+            { title: "pumkin head1", img: "pk1.webp", video: "pumkin head 1.mp4" },
+        ];
+
+        const contentContainer = document.querySelector('.content-container');
+        const videoPlayerContainer = document.querySelector('.video-player-container');
+        const videoPlayer = document.getElementById('video-player');
+        const searchInput = document.getElementById('search-input');
+        const searchButton = document.getElementById('search-button');
+        const scrollToTopButton = document.querySelector('.scroll-to-top');
+        const loadingSpinner = document.querySelector('.loading-spinner');
+        const modalOverlay = document.querySelector('.modal-overlay');
+
+        function showHome() {
+            contentContainer.style.display = 'none';
+            videoPlayerContainer.style.display = 'none';
+        }
+
+        function showMovies() {
+            contentContainer.style.display = 'grid';
+            videoPlayerContainer.style.display = 'none';
+            populateContent(movies);
+        }
+
+        function showTVShows() {
+            contentContainer.style.display = 'grid';
+            videoPlayerContainer.style.display = 'none';
+        }
+
+        function showNewArrivals() {
+            contentContainer.style.display = 'grid';
+            videoPlayerContainer.style.display = 'none';
+        }
+
+        function showFavorites() {
+            contentContainer.style.display = 'grid';
+            videoPlayerContainer.style.display = 'none';
+        }
+
+        function closeVideo() {
+            videoPlayerContainer.style.display = 'none';
+            videoPlayer.pause();
+        }
+
+        function populateContent(filteredMovies) {
+            contentContainer.innerHTML = '';
+            filteredMovies.forEach(movie => {
+                const movieCard = document.createElement('div');
+                movieCard.className = 'movie-card';
+
+                const imgElement = document.createElement('img');
+                imgElement.src = movie.img;
+                imgElement.alt = movie.title;
+
+                const titleElement = document.createElement('h3');
+                titleElement.textContent = movie.title;
+
+                movieCard.appendChild(imgElement);
+                movieCard.appendChild(titleElement);
+                contentContainer.appendChild(movieCard);
+
+                movieCard.addEventListener('click', () => {
+                    loadingSpinner.style.display = 'block';
+                    videoPlayer.src = movie.video;
+                    videoPlayerContainer.style.display = 'flex';
+                    videoPlayer.oncanplay = () => {
+                        loadingSpinner.style.display = 'none';
+                    };
+                });
+            });
+        }
+
+        function searchMovies() {
+            const query = searchInput.value.toLowerCase();
+            const filteredMovies = movies.filter(movie => movie.title.toLowerCase().includes(query));
+            if (filteredMovies.length > 0) {
+                populateContent(filteredMovies);
+            } else {
+                contentContainer.innerHTML = '<p>No results found</p>';
+            }
+        }
+
+        searchButton.addEventListener('click', searchMovies);
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                scrollToTopButton.style.display = 'block';
+            } else {
+                scrollToTopButton.style.display = 'none';
+            }
+        });
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function openModal() {
+            modalOverlay.style.display = 'flex';
+        }
+
+        function closeModal() {
+            modalOverlay.style.display = 'none';
+        }
+
+        function toggleForms() {
+            const signInForm = document.querySelector('.sign-in');
+            const createAccountForm = document.querySelector('.create-account');
+            const toggleButton = document.querySelector('.toggle-button');
+
+            signInForm.classList.toggle('active');
+            createAccountForm.classList.toggle('active');
+
+            if (signInForm.classList.contains('active')) {
+                toggleButton.textContent = "Don't have an account? Create one";
+            } else {
+                toggleButton.textContent = "Already have an account? Sign In";
+            }
+        }
+    </script>
+</body>
+</html>
